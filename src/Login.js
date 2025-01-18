@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,19 +19,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/users/login", formData);
+      const response = await axios.post(`${API_BASE_URL}/api/users/login`, formData);
       const { role, sessionId, username } = response.data;
-
-      // Save session details in localStorage
       localStorage.setItem("sessionId", sessionId);
       localStorage.setItem("username", username);
       localStorage.setItem("role", role);
-
-      // Redirect based on the user's role
       if (role.toLowerCase() === "admin") {
-        window.location.href = "/admin"; // Redirect to Admin page
+        window.location.href = "/admin";
       } else {
-        window.location.href = "/see-quiz"; // Redirect to Quiz page
+        window.location.href = "/see-quiz";
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.error || "Login failed.");
@@ -40,21 +37,21 @@ const Login = () => {
   return (
     <div
       className="d-flex justify-content-center align-items-center vh-100"
-      style={{ backgroundColor: "#f5f5dc" }} // Light brown background
+      style={{ backgroundColor: "#68BFF5" }}
     >
       <div
         className="card p-4 shadow"
         style={{
           width: "350px",
           borderRadius: "20px",
-          boxShadow: "5px 5px 15px #d1d9e6, -5px -5px 15px #ffffff",
-          backgroundColor: "#d2b48c", // Light yellow background for card
+          boxShadow: "5px 5px 15px #BFD5EA, -5px -5px 15px #FFFFFF",
+          backgroundColor: "#EAF6FE",
         }}
       >
-        <h2 className="text-center mb-4" style={{ color: "white" }}>Login</h2> {/* Light brown color */}
-        <form onSubmit={handleSubmit} style={{ color: "white" }}>
+        <h2 className="text-center mb-4" style={{ color: "#004080" }}>Login</h2>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label" style={{ color: "white" }}>Email</label> {/* Light brown color */}
+            <label className="form-label" style={{ color: "#004080" }}>Email</label>
             <input
               type="email"
               name="email"
@@ -66,7 +63,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" style={{ color: "white" }}>Password</label> {/* Light brown color */}
+            <label className="form-label" style={{ color: "#004080" }}>Password</label>
             <input
               type="password"
               name="password"
@@ -79,17 +76,18 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="btn btn-success"
+            className="btn btn-primary"
             style={neumorphicButtonStyle}
           >
             Login
           </button>
         </form>
-        {errorMessage && <p className="text-danger mt-3">{errorMessage}</p>}
-
-        <p className="text-center mt-3">
+        {errorMessage && (
+          <p className="text-danger mt-3 text-center">{errorMessage}</p>
+        )}
+        <p className="text-center mt-3" style={{ color: "#004080" }}>
           New user?{" "}
-          <a href="/register" className="text-danger">
+          <a href="/register" className="text-primary">
             Register here
           </a>
         </p>
@@ -101,8 +99,8 @@ const Login = () => {
 const neumorphicInputStyle = {
   border: "none",
   outline: "none",
-  boxShadow: "inset 5px 5px 15px #d1d9e6, inset -5px -5px 15px #ffffff",
-  backgroundColor: "#F9F9F0", // Light yellow background
+  boxShadow: "inset 5px 5px 15px #BFD5EA, inset -5px -5px 15px #FFFFFF",
+  backgroundColor: "white",
   borderRadius: "10px",
   padding: "10px",
 };
@@ -113,7 +111,9 @@ const neumorphicButtonStyle = {
   marginLeft: "70px",
   width: "150px",
   marginTop: "20px",
-  backgroundColor: "#552828", // Light brown button
+  backgroundColor: "#004080",
+  color: "white",
+  boxShadow: "4px 4px 10px #BFD5EA, -4px -4px 10px #FFFFFF",
 };
 
 export default Login;

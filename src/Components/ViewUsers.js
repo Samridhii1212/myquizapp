@@ -4,32 +4,33 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
 function ViewUsers() {
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [scores, setScores] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch all users
+    
     axios
-      .get("http://localhost:8080/api/users/")
+      .get(`${API_BASE_URL}/api/users/`)
       .then((response) => {
         setUsers(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching users:", error);
+        alert("Error fetching users:", error);
       });
   }, []);
 
   const handleUserClick = (userId) => {
     axios
-      .get(`http://localhost:8080/api/users/${userId}`)
+      .get(`${API_BASE_URL}/api/users/${userId}`)
       .then((response) => {
         setScores(response.data);
         setSelectedUser(userId);
       })
       .catch((error) => {
-        console.error("Error fetching user scores:", error);
+        alert("Error fetching user scores:", error);
       });
   };
 
@@ -38,36 +39,29 @@ function ViewUsers() {
     setScores([]);
   };
 
-    const handleBack = () => {
-    const role = localStorage.getItem("role");
-    console.log(role)
-    
-      navigate("/admin"); // Redirect to the admin page if role is admin
-    
+  const handleBack = () => {
+    navigate("/admin");
   };
+
+  const admins = users.filter((user) => user.role === "admin");
+  const nonAdmins = users.filter((user) => user.role !== "admin");
 
   return (
     <div
       className="container-fluid py-5"
       style={{
-       
-        backgroundColor: "#f5f5dc", // Beige background
+        backgroundColor: "#68BFF5",
         minHeight: "100vh",
-    
       }}
     >
-
-      {!selectedUser ? (
-        <>
-        <button
-       className="btn btn-success position-fixed"
+      <button
+        className="btn btn-success position-fixed"
         style={{
           top: "20px",
           left: "20px",
           borderRadius: "50%",
           width: "40px",
           height: "40px",
-          boxShadow: "3px 3px 8px #d1d9e6, -3px -3px 8px #ffffff",
           zIndex: "1000",
         }}
         onClick={handleBack}
@@ -83,44 +77,82 @@ function ViewUsers() {
         </span>
       </button>
 
-
-          <h2 className="text-center mb-4" style={{ color: "#552828" }}>
+      {!selectedUser ? (
+        <>
+          <h2 className="text-center mb-4" style={{ color: "#004080" }}>
             All Users
           </h2>
-          <div className="container p-4" style={{color:"#552828"}}>
-            <table className="table table-striped text-center">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      <button
-                        className="btn"
-                        style={{ backgroundColor:"#552828",color:"white"}}
-                        onClick={() => handleUserClick(user.id)}
-                      >
-                        View Scores
-                      </button>
-                    </td>
+
+          
+          {admins.length > 0 && (
+            <div className="container p-4">
+              <h3 className="text-center" style={{ color: "white" }}>
+                Admin Users
+              </h3>
+              <table className="table table-striped text-center">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {admins.map((admin) => (
+                    <tr key={admin.id}>
+                      <td>{admin.id}</td>
+                      <td>{admin.username}</td>
+                      <td>{admin.email}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          
+          {nonAdmins.length > 0 && (
+            <div className="container p-4">
+              <h3 className="text-center" style={{ color: "white"  }}>
+                Non-Admin Users
+              </h3>
+              <table className="table table-striped text-center">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nonAdmins.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.id}</td>
+                      <td>{user.username}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        <button
+                          className="btn"
+                          style={{
+                            backgroundColor: "#004080",
+                            color: "white",
+                          }}
+                          onClick={() => handleUserClick(user.id)}
+                        >
+                          View Scores
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </>
       ) : (
         <>
-          <h2 className="text-center mb-4" style={{ color: "#7269AC" }}>
+          <h2 className="text-center mb-4" style={{ color: "#004080" }}>
             Scores for User ID: {selectedUser}
           </h2>
           <button
@@ -130,9 +162,8 @@ function ViewUsers() {
               display: "block",
               margin: "0 auto 20px",
               borderRadius: "20px",
-              backgroundColor: "#552828",
+              backgroundColor: "#004080",
               color: "white",
-              boxShadow: "3px 3px 8px #d1d9e6, -3px -3px 8px #ffffff",
             }}
           >
             Back to Users

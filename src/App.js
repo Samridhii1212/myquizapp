@@ -14,7 +14,7 @@ import ViewUsers from "./Components/ViewUsers";
 
 const App = () => {
   const sessionId = localStorage.getItem("sessionId");
-  const role = localStorage.getItem("role"); // Assuming role is stored during login/register
+  const role = localStorage.getItem("role"); 
 
   return (
     <Router>
