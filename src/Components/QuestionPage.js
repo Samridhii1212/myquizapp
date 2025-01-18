@@ -30,7 +30,7 @@ function QuestionPage() {
         }
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
       });
   }, [id]);
@@ -54,7 +54,6 @@ function QuestionPage() {
       questionid: question.questionId,
       answergiven: selectedOptions[question.questionId] || null,
     }));
-
     axios
       .post(
         `${API_BASE_URL}/quiz/submit/${id}`,
@@ -65,8 +64,7 @@ function QuestionPage() {
       )
       .then((response) => {
         setScore(response.data);
-      })
-      .catch((error) => {});
+      });
   };
 
   if (loading) {
@@ -113,6 +111,7 @@ function QuestionPage() {
       >
         Back to Quizzes
       </button>
+
       {score === null ? (
         <form onSubmit={handleSubmit}>
           {quizData.map((question, index) => (
@@ -121,7 +120,7 @@ function QuestionPage() {
               className="mb-4 mx-auto p-4"
               style={{
                 maxWidth: "700px",
-                border: `2px solid #11384e`,
+                border: `2px solid#11384e`,
                 borderRadius: "15px",
                 backgroundColor: "#EAF6FE",
                 boxShadow: "0 6px 12px rgba(0, 0, 0, 0.15)",
@@ -141,25 +140,29 @@ function QuestionPage() {
                       <div
                         key={optionIndex}
                         className={`p-3 mb-3 rounded text-center ${
-                          isSelected
-                            ? isCorrect
-                              ? "bg-success text-white"
-                              : "bg-danger text-white"
+                          alreadyAttempted
+                            ? isSelected
+                              ? isCorrect
+                                ? "bg-success text-white"
+                                : "bg-danger text-white"
+                              : "bg-light text-dark"
+                            : isSelected
+                            ? "bg-success text-white"
                             : "bg-light text-dark"
                         }`}
                         style={{
-                          cursor: isAttempted ? "not-allowed" : "pointer",
+                          cursor: alreadyAttempted ? "not-allowed" : "pointer",
                           border: `1px solid #6b4f31`,
                           borderRadius: "20px",
                           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                          opacity: isAttempted && !isSelected ? 0.6 : 1,
+                          opacity: alreadyAttempted && !isSelected ? 0.6 : 1,
                         }}
                         onClick={() =>
-                          !isAttempted && handleOptionSelect(question.questionId, optionIndex + 1)
+                          !alreadyAttempted && handleOptionSelect(question.questionId, optionIndex + 1)
                         }
                       >
                         {option}
-                        {isSelected && !isCorrect && (
+                        {alreadyAttempted && isSelected && !isCorrect && (
                           <span
                             className="ms-2"
                             style={{
@@ -170,7 +173,7 @@ function QuestionPage() {
                             ❌
                           </span>
                         )}
-                        {isCorrect && !isSelected && (
+                        {alreadyAttempted && isCorrect && (
                           <span
                             className="ms-2"
                             style={{
@@ -188,6 +191,7 @@ function QuestionPage() {
               </div>
             </div>
           ))}
+
           <div className="text-center mt-4">
             <button
               type="submit"
