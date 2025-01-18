@@ -11,7 +11,6 @@ function ViewUsers() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     axios
       .get(`${API_BASE_URL}/api/users/`)
       .then((response) => {
@@ -32,6 +31,20 @@ function ViewUsers() {
       .catch((error) => {
         alert("Error fetching user scores:", error);
       });
+  };
+
+  const handleDeleteUser = (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      axios
+        .delete(`${API_BASE_URL}/api/users/delete/${userId}`)
+        .then(() => {
+          alert("User deleted successfully.");
+          setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        })
+        .catch((error) => {
+          alert("Error deleting user:", error);
+        });
+    }
   };
 
   const handleBackToUsers = () => {
@@ -83,7 +96,6 @@ function ViewUsers() {
             All Users
           </h2>
 
-          
           {admins.length > 0 && (
             <div className="container p-4">
               <h3 className="text-center" style={{ color: "white" }}>
@@ -110,10 +122,9 @@ function ViewUsers() {
             </div>
           )}
 
-          
           {nonAdmins.length > 0 && (
             <div className="container p-4">
-              <h3 className="text-center" style={{ color: "white"  }}>
+              <h3 className="text-center" style={{ color: "white" }}>
                 Non-Admin Users
               </h3>
               <table className="table table-striped text-center">
@@ -133,14 +144,16 @@ function ViewUsers() {
                       <td>{user.email}</td>
                       <td>
                         <button
-                          className="btn"
-                          style={{
-                            backgroundColor: "#004080",
-                            color: "white",
-                          }}
+                          className="btn btn-primary me-2"
                           onClick={() => handleUserClick(user.id)}
                         >
                           View Scores
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleDeleteUser(user.id)}
+                        >
+                          Delete User
                         </button>
                       </td>
                     </tr>
