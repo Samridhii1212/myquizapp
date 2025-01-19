@@ -15,7 +15,7 @@ Welcome to **Quiz Champ** – a full-stack quiz application designed to make lea
 
 #### Browse Quizzes
 - Quizzes are displayed with quiz titles.
-- Each quiz card shows relevant information,such as the quiz title, No of Questions ,Scores.
+- Each quiz card shows relevant information,such as the quiz title, No of Questions and Scores.
 
 #### Attempt Quizzes
 - Users can take quizzes in real time, answering multiple-choice questions.
