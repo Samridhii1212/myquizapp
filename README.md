@@ -14,8 +14,8 @@ Welcome to **Quiz Champ** – a full-stack quiz application designed to make lea
 - Session-based authentication prevents unauthorized access.
 
 #### Browse Quizzes
-- Quizzes are displayed in an with quiz titles.
-- Each quiz card shows relevant information, such as the quiz title,No of Questions ,Scores.
+- Quizzes are displayed with quiz titles.
+- Each quiz card shows relevant information,such as the quiz title, No of Questions ,Scores.
 
 #### Attempt Quizzes
 - Users can take quizzes in real time, answering multiple-choice questions.
