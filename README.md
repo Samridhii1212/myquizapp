@@ -14,8 +14,8 @@ Welcome to **Quiz Champ** – a full-stack quiz application designed to make lea
 - Session-based authentication prevents unauthorized access.
 
 #### Browse Quizzes
-- Quizzes are displayed in an easy-to-navigate interface with categories and quiz titles.
-- Each quiz card shows relevant information, such as the quiz title and difficulty level.
+- Quizzes are displayed in an with quiz titles.
+- Each quiz card shows relevant information, such as the quiz title,No of Questions ,Scores.
 
 #### Attempt Quizzes
 - Users can take quizzes in real time, answering multiple-choice questions.
@@ -24,19 +24,20 @@ Welcome to **Quiz Champ** – a full-stack quiz application designed to make lea
 #### Score Tracking
 - After completing a quiz, users see their score immediately.
 - Scores are stored and displayed in the user's dashboard for future reference.
+- Highlight the correct answers or show them alongside the user's answers, indicating which answers were correct and which were wrong.
 
 ### Admin Functionality
 
 #### Authentication
 - Admins have a secure and dedicated login.
-- Access to admin features is restricted to authorized accounts only.
+
 
 #### Manage Quizzes
-- Admins can create new quizzes by adding a title, selecting categories, and providing questions.
-- Quizzes can be edited or deleted as required.
+- Admins can create new quizzes by adding a title and providing questions.
+
 
 #### Track Performance
-- Admins can view detailed user reports, including quiz scores, attempts, and performance metrics.
+- Admins can view detailed user quiz scores.
 - This feature helps in understanding user engagement and quiz effectiveness.
 
 ---
