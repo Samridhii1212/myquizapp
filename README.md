@@ -14,7 +14,7 @@ Welcome to **Quiz Champ** – a fun and interactive quiz application built with 
 
 ### Admin Functionality:
 - **Authentication**: Secure admin login.
-- **Manage Quizzes**: Add, edit, or delete questions and quizzes.
+- **Manage Quizzes**: Add questions and quizzes.
 - **Track Performance**: View user scores and quiz performance.
 
 ---
